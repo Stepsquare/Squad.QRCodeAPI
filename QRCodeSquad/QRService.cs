@@ -28,7 +28,7 @@ namespace QRCodeSquad
                     {
                         Bitmap img = new Bitmap(ms);
                         var res = QRDecode(img);
-                        results.Add(res);
+                        results.AddRange(res);
                     }
                 }
             }
@@ -42,21 +42,23 @@ namespace QRCodeSquad
             return (Bitmap)System.Drawing.Image.FromFile(folder);
         }
 
-        public static string QRDecode(Bitmap bmp)
+        public static List<string> QRDecode(Bitmap bmp)
         {
+            List<string> res = new List<string>();
             // create a barcode reader instance
+
             IBarcodeReader reader = new BarcodeReader();
             // load a bitmap
             var barcodeBitmap = bmp;
             // detect and decode the barcode inside the bitmap
-            var result = reader.Decode(barcodeBitmap);
+            var result = reader.DecodeMultiple(barcodeBitmap);
             // do something with the result
             if (result != null)
             {
                 //var res1 = result.BarcodeFormat.ToString();
-                var res2 = result.Text;
+                res.AddRange(result.Select(j => j.Text).ToList());
 
-                return res2;
+                return res;
             } else
             {
                 return null;

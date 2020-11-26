@@ -28,7 +28,7 @@ namespace Api.Controllers
                     {
                         var bmp = new Bitmap(ms);
                         res.data = new List<string>();
-                        res.data.Add(QRService.QRDecode(bmp));
+                        res.data.AddRange(QRService.QRDecode(bmp));
                     }
                 } else if(data.type == FileInput.FileType.PDF)
                 {
